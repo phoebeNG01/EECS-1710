@@ -1,4 +1,4 @@
-// Inspired by Coding Challage #74: Clock with p5.js by The Coding Train
+// Inspired by Coding Challenge #74: Clock with p5.js by The Coding Train
 // https://www.youtube.com/watch?v=E4RyStef-gY
 
 float secondSize = 350;
