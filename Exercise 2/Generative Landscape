@@ -1,1 +1,42 @@
 
+PImage earth, blue, purple, red;
+
+Star[] stars = new Star[1000];
+
+void setup() {
+ 
+  fullScreen(P2D);
+  
+  for (int i = 0; i < stars.length; i++) {
+    stars[i] = new Star();
+  }
+  
+  earth = loadImage("earth.png");
+  blue = loadImage("blue.png");
+  purple = loadImage("purple.png");
+  red = loadImage("red.png");
+
+}
+
+void draw() {
+ 
+  background(0);
+  translate(width / 2, height / 2);
+  
+  for(int i = 0; i < stars.length; i++) {
+    stars[i].update();
+    stars[i].show();
+  }
+    
+  image(blue, -700, 200);
+  image(purple, -800, -500);
+  image(red, -400, -300);
+    
+  image(blue, 550, -450);
+  image(purple, 450, -150);
+  image(red, 700, 300);
+    
+  image(earth, 0, -100);
+  earth.resize(296, 294);
+    
+}
