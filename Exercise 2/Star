@@ -1,7 +1,6 @@
 class Star {
   
   float x, y, z;
-  
   float pz;
   
   Star() {
