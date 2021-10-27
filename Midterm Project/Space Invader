@@ -1,5 +1,5 @@
-
 PImage ship, alien, start;
+
 Ship spaceship;
 Alien invader;
 Shoot bullet;
