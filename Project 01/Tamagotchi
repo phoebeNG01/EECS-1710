@@ -1,0 +1,81 @@
+PVector position, tamagotchi;
+PImage setting, chill, lookleft, sleeping, singing01, singing02;
+float margin = 50;
+
+boolean isSleeping = false;
+int sleepingMarkTime = 0;
+int sleepingTimeout = 3000;
+float sleepingSpread = 5;
+
+boolean isSinging = false;
+int singMarkTime = 0;
+int singTimeout = 4000;
+int singDuration = 500;
+
+float triggerDistance1 = 100;
+float triggerDistance2 = 5;
+float movementSpeed = 0.08;
+
+void setup() { 
+  size(750, 750, P2D);
+  
+  position = new PVector(width/2, height/2);
+  pickTarget();
+  
+  setting = loadImage("background.png");
+  
+  lookleft = loadImage("lookleft.png");
+  lookleft.resize(150, 150);
+  sleeping = loadImage("sleeping.png");
+  sleeping.resize(150, 150);
+  singing01 = loadImage("singing01.png");
+  singing01.resize(150, 150);
+  singing02 = loadImage("singing02.png");
+  singing02.resize(150, 150);
+  
+  chill = lookleft;
+  
+  ellipseMode(CENTER);
+  rectMode(CENTER);
+  imageMode(CENTER);
+}
+
+void draw() {
+  image(setting, width/2, height/2);
+  setting.resize(750, 750);
+  
+  PVector mousePos = new PVector(mouseX, mouseY);
+  isSleeping = position.dist(mousePos) < triggerDistance1;
+  
+  if (isSleeping) {
+    sleepingMarkTime = millis();
+    chill = sleeping;
+    position = position.lerp(tamagotchi, movementSpeed).add(new PVector(random(-sleepingSpread, sleepingSpread), random(-sleepingSpread, sleepingSpread)));
+    if (position.dist(tamagotchi) < triggerDistance2) {
+      pickTarget();
+    }
+  } else if (!isSleeping && millis() > sleepingMarkTime + sleepingTimeout) {
+    if (!isSinging && millis() > singMarkTime + singTimeout) {
+      isSinging = true;
+      singMarkTime = millis();
+    } else if (isSinging && millis() > singMarkTime + singDuration) {
+      isSinging = false;
+    }
+
+    if (isSinging) {
+      chill = singing01;
+    } else {
+      chill = singing02;
+    }    
+  } else if (!isSleeping && millis() > sleepingMarkTime + sleepingTimeout/6) {
+    chill = lookleft; // neutral expression
+  }
+
+  position.y += sin(millis()) / 2;
+
+  image(chill, position.x, position.y);
+}
+
+void pickTarget() {
+  tamagotchi = new PVector(random(margin, width-margin), random(margin, height-margin));
+}
